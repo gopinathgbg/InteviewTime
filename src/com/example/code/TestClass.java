@@ -64,7 +64,7 @@ public class TestClass {
    }
 	
    //Find the longest string in a list using Streams.
-    Optional <String> longestString = names.stream().reduce((s1,s2) ->s1.length() > s2.length() ? s1:s2);
+    Optional <String> longestString = names.stream().reduce((s1,s2) -> s1.length() > s2.length() ? s1:s2);
     
     System.out.println(longestString);
     
@@ -83,8 +83,12 @@ public class TestClass {
 
 	String uniqueCharacters = input.chars().distinct().mapToObj(c -> String.valueOf((char) c))
 			.collect(Collectors.joining());
-	System.out.println(uniqueCharacters);
+	System.out.println("non repeated character"+ uniqueCharacters);
     // 3) 
     
+	List<Integer> numbers1=Arrays.asList(1,2,3,4,2,3,5,6,6);
+	Set<Integer>  abc= new HashSet<>();
+	Set<Integer>  duplicates=numbers1.stream().filter(n -> !abc.add(n)).collect(Collectors.toSet());
+	System.out.println("duplicate elements are "+duplicates);
 	}
 }
