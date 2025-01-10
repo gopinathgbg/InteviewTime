@@ -1,4 +1,4 @@
-package com.example.ai.java8.datetime.api.example;
+package com.example.ai.java8.dt.api.example;
 
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -54,34 +55,37 @@ public class DateTimeAPI {
 				    .collect(Collectors.groupingBy(LocalDate::getDayOfWeek));
 				System.out.println(groupedByDay);
   //6) Find the first Monday of each month for the next year:
-				List<LocalDate> firstMondays = IntStream.rangeClosed(1, 12)
-					    .mapToObj(month -> YearMonth.of(Year.now().getValue() + 1, month).atDay(1))
-					    .map(date -> date.with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY)))
-					    .collect(Collectors.toList());
-					System.out.println(firstMondays);
+			
 //7) Calculate the difference in days between the earliest and latest dates in a list:
-					List<LocalDate> dates1 = Arrays.asList(LocalDate.of(2024, 12, 1), LocalDate.of(2024, 12, 20), LocalDate.of(2024, 12, 10));
-					long daysDifference = ChronoUnit.DAYS.between(
-					    dates1.stream().min(Comparator.naturalOrder()).orElseThrow(),
-					    dates1.stream().max(Comparator.naturalOrder()).orElseThrow()
-					);
-					System.out.println("Difference in days: " + daysDifference);
+					  List<LocalDate> datesD = Arrays.asList(
+					            LocalDate.of(2024, 12, 1),
+					            LocalDate.of(2024, 12, 20),
+					            LocalDate.of(2024, 12, 10)
+					        );
+
+					        // Find the earliest and latest dates
+					        Optional<LocalDate> minDate = datesD.stream().min(Comparator.naturalOrder());
+					        Optional<LocalDate> maxDate = datesD.stream().max(Comparator.naturalOrder());
+
+					        // Use orElseThrow with a Supplier for Java 8
+					        LocalDate earliestDate = minDate.orElseThrow(() -> new IllegalStateException("No minimum date found"));
+					        LocalDate latestDate = maxDate.orElseThrow(() -> new IllegalStateException("No maximum date found"));
+
+					        // Calculate the difference in days
+					        long daysDifference = ChronoUnit.DAYS.between(earliestDate, latestDate);
+
+					        System.out.println("Difference in days: " + daysDifference);
+					    }
 // 8)  Find overlapping date ranges:
 					List<LocalDate[]> dateRanges = Arrays.asList(
 						    new LocalDate[]{LocalDate.of(2024, 12, 1), LocalDate.of(2024, 12, 10)},
 						    new LocalDate[]{LocalDate.of(2024, 12, 5), LocalDate.of(2024, 12, 15)},
 						    new LocalDate[]{LocalDate.of(2024, 12, 20), LocalDate.of(2024, 12, 25)}
 						);
-						boolean hasOverlap = dateRanges.stream().anyMatch(range1 ->
-						    dateRanges.stream().anyMatch(range2 ->
-						        range1 != range2 &&
-						        (range1[1].isAfter(range2[0]) || range1[1].isEqual(range2[0])) &&
-						        (range1[0].isBefore(range2[1]) || range1[0].isEqual(range2[1]))
-						    )
-						);
-						System.out.println("Has overlapping ranges: " + hasOverlap);
+					//	boolean hasOverlap = dateRanges.stream().anyMatch(range1 ->
+						    //dateRanges.stream().anyMatch(range2 ->
+						       // range1 != range2 &&
+						      //  (range1[1].isAfter(range2[0]) || range1[1].isEqual(range2[0])) &&
+						     //   (range1[0].isBefore(range2[1]) || range1[0].isEqual(range2[1])); 
 
-					
-
-	}
 }
