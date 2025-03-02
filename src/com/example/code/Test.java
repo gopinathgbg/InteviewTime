@@ -39,16 +39,6 @@ class Test {
 //	String reversed = IntStream.range(0, input.length()).mapToObj(i -> String.valueOf(input.charAt(input.length() - i - 1))).collect(Collectors.joining());
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
  List<Integer> list=	Arrays.asList(1,2 , 3, 2, 4, 6, 8, 1);
  
  Set<Integer> seen= new HashSet<>();
@@ -57,7 +47,13 @@ class Test {
  System.out.println(duplicates); 
 	
 	
+//	Linked list1: 1->2->3->4->5->6->7->8   
+	//	ques -> remove every kth node, say k = 3, answer = 1->2->4->5->7->8  
 	
+	List<Integer> list1 =Arrays.asList(1,2,3,4,5,6,7,8);
+	int k=3;
+List<Integer> list2=list1.stream().filter(n -> !n.equals(k)).collect(Collectors.toList());
+	System.out.println(list2);
 	
 
 	
